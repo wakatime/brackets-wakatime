@@ -5,7 +5,7 @@
 define(function (require, exports, module) {
     "use strict";
 
-    var VERSION = '1.0.0';
+    var VERSION = '1.0.1';
 
     var EditorManager      = brackets.getModule("editor/EditorManager"),
         DocumentManager    = brackets.getModule("document/DocumentManager"),
@@ -16,6 +16,7 @@ define(function (require, exports, module) {
         prefs              = PreferencesManager.getExtensionPrefs("WakaTime");
 
     prefs.definePreference("apikey", "string", "");
+    prefs.definePreference("ignore", "array", ["^/var/", "^/tmp/", "^/private/"]);
 
     var lastAction         = 0,
         lastFile           = undefined;
@@ -47,15 +48,30 @@ define(function (require, exports, module) {
         return lastAction + 120000 < Date.now();
     }
 
+    function fileIsIgnored(file) {
+        var patterns = prefs.get("ignore");
+        var ignore = false;
+        for (var i=0; i<patterns.length; i++) {
+            var re = new RegExp(patterns[i], "gi");
+            if (re.test(file)) {
+                ignore = true;
+                break;
+            }
+        }
+        return ignore;
+    }
+
     function handleAction(currentDocument, isWrite) {
         if (currentDocument) {
             var file = currentDocument.file;
             if (file && file.isFile) {
                 var time = Date.now();
                 if (isWrite || enoughTimePassed() || lastFile !== file.fullPath) {
-                    var language = currentDocument.language ? currentDocument.language.getName() : undefined;
-                    var project = ProjectManager.getProjectRoot() ? ProjectManager.getProjectRoot().name : undefined;
-                    sendHeartbeat(file.fullPath, time, project, language, isWrite);
+                    if (!fileIsIgnored(file.fullPath)) {
+                        var language = currentDocument.language ? currentDocument.language.getName() : undefined;
+                        var project = ProjectManager.getProjectRoot() ? ProjectManager.getProjectRoot().name : undefined;
+                        sendHeartbeat(file.fullPath, time, project, language, isWrite);
+                    }
                 }
             }
         }
