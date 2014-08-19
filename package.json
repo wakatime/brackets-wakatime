@@ -3,7 +3,7 @@
     "title": "WakaTime",
     "description": "Automatic time tracking and analytics about your programming.",
     "homepage": "https://github.com/wakatime/brackets-wakatime",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "WakaTime <support@wakatime.com> (https://wakatime.com/)",
     "license": "BSD",
     "engines": {
