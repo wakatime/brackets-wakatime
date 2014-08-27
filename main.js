@@ -25,7 +25,8 @@ define(function (require, exports, module) {
     var lastAction         = 0,
         lastFile           = undefined;
 
-    function sendHeartbeat(file, time, project, language, isWrite) {
+    function sendHeartbeat(file, time, project, language, isWrite, lines) {
+        console.log(lines);
         $.ajax({
             type: 'POST',
             url: 'https://wakatime.com/api/v1/actions',
@@ -37,7 +38,7 @@ define(function (require, exports, module) {
                 project: project,
                 language: language,
                 is_write: isWrite ? true : false,
-                lines: isWrite ? true : false,
+                lines: lines,
                 plugin: 'brackets-wakatime/'+VERSION,
             }),
             headers: {
@@ -74,7 +75,7 @@ define(function (require, exports, module) {
                     if (!fileIsIgnored(file.fullPath)) {
                         var language = currentDocument.language ? currentDocument.language.getName() : undefined;
                         var project = ProjectManager.getProjectRoot() ? ProjectManager.getProjectRoot().name : undefined;
-                        sendHeartbeat(file.fullPath, time, project, language, isWrite);
+                        sendHeartbeat(file.fullPath, time, project, language, isWrite, currentDocument.getText().split("\n").length);
                     }
                 }
             }
