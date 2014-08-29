@@ -2,6 +2,12 @@ History
 -------
 
 
+1.0.3 (2014-08-29)
+++++++++++++++++++
+
+- get total number of lines more efficiently
+
+
 1.0.2 (2014-08-27)
 ++++++++++++++++++
 
