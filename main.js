@@ -26,7 +26,6 @@ define(function (require, exports, module) {
         lastFile           = undefined;
 
     function sendHeartbeat(file, time, project, language, isWrite, lines) {
-        console.log(lines);
         $.ajax({
             type: 'POST',
             url: 'https://wakatime.com/api/v1/actions',
@@ -66,7 +65,8 @@ define(function (require, exports, module) {
         return ignore;
     }
 
-    function handleAction(currentDocument, isWrite) {
+    function handleAction(isWrite) {
+        var currentDocument = DocumentManager.getCurrentDocument();
         if (currentDocument) {
             var file = currentDocument.file;
             if (file && file.isFile) {
@@ -75,7 +75,9 @@ define(function (require, exports, module) {
                     if (!fileIsIgnored(file.fullPath)) {
                         var language = currentDocument.language ? currentDocument.language.getName() : undefined;
                         var project = ProjectManager.getProjectRoot() ? ProjectManager.getProjectRoot().name : undefined;
-                        sendHeartbeat(file.fullPath, time, project, language, isWrite, currentDocument.getText().split("\n").length);
+                        var editor = currentDocument._masterEditor;
+                        var lines = editor ? editor.lineCount() : undefined;
+                        sendHeartbeat(file.fullPath, time, project, language, isWrite, lines);
                     }
                 }
             }
@@ -83,15 +85,15 @@ define(function (require, exports, module) {
     }
 
     $(DocumentManager).on('currentDocumentChange', function () {
-        handleAction(DocumentManager.getCurrentDocument());
+        handleAction();
     });
 
     $(DocumentManager).on('documentSaved', function () {
-        handleAction(DocumentManager.getCurrentDocument(), true);
+        handleAction(true);
     });
 
     $(window).on('keypress', function () {
-        handleAction(DocumentManager.getCurrentDocument());
+        handleAction();
     });
 
     // Function to run when the menu item is clicked
