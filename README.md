@@ -10,14 +10,13 @@ Installation
 
 2. Search for `WakaTime`, then click `Install`.
 
-3. Enter your [api key](https://wakatime.com/#apikey).
+3. Enter your [api key](https://wakatime.com/settings#apikey) from https://wakatime.com/settings#apikey.
 
-4. Use Brackets like you normally do and your time will automatically be tracked for you.
+4. Use Brackets like you normally do and your time will be tracked for you automatically.
 
 5. Visit https://wakatime.com to see your logged time.
 
 Screen Shots
 ------------
 
-![Project Overview](https://wakatime.com/static/img/ScreenShots/ScreenShot_2014-09-15.png)
-
+![Project Overview](https://wakatime.com/static/img/ScreenShots/ScreenShot-2014-10-29.png)
