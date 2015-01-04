@@ -7,7 +7,7 @@ define(function (require, exports, module) {
 
     var VERSION = '1.0.3';
 
-    var EditorManager      = brackets.getModule("editor/EditorManager"),
+    var MainViewManager    = brackets.getModule("view/MainViewManager"),
         DocumentManager    = brackets.getModule("document/DocumentManager"),
         ProjectManager     = brackets.getModule("project/ProjectManager"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
@@ -84,7 +84,7 @@ define(function (require, exports, module) {
         }
     }
 
-    $(DocumentManager).on('currentDocumentChange', function () {
+    $(MainViewManager).on('currentFileChange', function () {
         handleAction();
     });
 
