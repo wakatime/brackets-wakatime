@@ -5,7 +5,7 @@
 define(function (require, exports, module) {
     "use strict";
 
-    var VERSION = '1.0.3';
+    var VERSION = '1.0.4';
 
     var MainViewManager    = brackets.getModule("view/MainViewManager"),
         DocumentManager    = brackets.getModule("document/DocumentManager"),
