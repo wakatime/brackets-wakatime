@@ -2,6 +2,12 @@ History
 -------
 
 
+1.0.4 (2015-01-04)
+++++++++++++++++++
+
+- replace depreciated DocumentManager.currentDocumentChange event with MainViewManager.currentFileChange
+
+
 1.0.3 (2014-08-29)
 ++++++++++++++++++
 
