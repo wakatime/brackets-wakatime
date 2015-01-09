@@ -19,12 +19,21 @@ define(function (require, exports, module) {
         lastFile           = undefined;
 
     function init() {
-        prefs.definePreference("apikey", "string", "");
-        prefs.definePreference("ignore", "array", ["^/var/", "^/tmp/", "^/private/"]);
-        if (prefs.getPreferenceLocation('ignore').scope == 'default') {
-            prefs.set('ignore', prefs.get('ignore'));
-            prefs.save();
+
+        setupPreferences();
+
+        addMenuItem();
+
+        // prompt for api key if not already set
+        if (!prefs.get("apikey")) {
+            promptForApiKey();
         }
+
+        setupEventListeners();
+
+    }
+
+    function addMenuItem() {
 
         // register menu command
         var COMMAND_ID = "wakatime.apikey";
@@ -35,12 +44,9 @@ define(function (require, exports, module) {
         menu.addMenuDivider();
         menu.addMenuItem(COMMAND_ID);
 
-        // prompt for api key if not already set
-        if (!prefs.get("apikey")) {
-            promptForApiKey();
-        }
+    }
 
-        // setup event listeners
+    function setupEventListeners() {
         $(MainViewManager).on('currentFileChange', function () {
             handleAction();
         });
@@ -51,6 +57,15 @@ define(function (require, exports, module) {
             handleAction();
         });
 
+    }
+
+    function setupPreferences() {
+        prefs.definePreference("apikey", "string", "");
+        prefs.definePreference("ignore", "array", ["^/var/", "^/tmp/", "^/private/"]);
+        if (prefs.getPreferenceLocation('ignore').scope == 'default') {
+            prefs.set('ignore', prefs.get('ignore'));
+            prefs.save();
+        }
     }
 
     function sendHeartbeat(file, time, project, language, isWrite, lines) {
