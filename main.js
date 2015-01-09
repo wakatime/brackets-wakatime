@@ -15,15 +15,43 @@ define(function (require, exports, module) {
         Menus              = brackets.getModule("command/Menus"),
         prefs              = PreferencesManager.getExtensionPrefs("WakaTime");
 
-    prefs.definePreference("apikey", "string", "");
-    prefs.definePreference("ignore", "array", ["^/var/", "^/tmp/", "^/private/"]);
-    if (prefs.getPreferenceLocation('ignore').scope == 'default') {
-        prefs.set('ignore', prefs.get('ignore'));
-        prefs.save();
-    }
-
     var lastAction         = 0,
         lastFile           = undefined;
+
+    function init() {
+        prefs.definePreference("apikey", "string", "");
+        prefs.definePreference("ignore", "array", ["^/var/", "^/tmp/", "^/private/"]);
+        if (prefs.getPreferenceLocation('ignore').scope == 'default') {
+            prefs.set('ignore', prefs.get('ignore'));
+            prefs.save();
+        }
+
+        // register menu command
+        var COMMAND_ID = "wakatime.apikey";
+        CommandManager.register("WakaTime API Key", COMMAND_ID, promptForApiKey);
+
+        // add menu item
+        var menu = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
+        menu.addMenuDivider();
+        menu.addMenuItem(COMMAND_ID);
+
+        // prompt for api key if not already set
+        if (!prefs.get("apikey")) {
+            promptForApiKey();
+        }
+
+        // setup event listeners
+        $(MainViewManager).on('currentFileChange', function () {
+            handleAction();
+        });
+        $(DocumentManager).on('documentSaved', function () {
+            handleAction(true);
+        });
+        $(window).on('keypress', function () {
+            handleAction();
+        });
+
+    }
 
     function sendHeartbeat(file, time, project, language, isWrite, lines) {
         $.ajax({
@@ -84,18 +112,6 @@ define(function (require, exports, module) {
         }
     }
 
-    $(MainViewManager).on('currentFileChange', function () {
-        handleAction();
-    });
-
-    $(DocumentManager).on('documentSaved', function () {
-        handleAction(true);
-    });
-
-    $(window).on('keypress', function () {
-        handleAction();
-    });
-
     // Function to run when the menu item is clicked
     function promptForApiKey() {
         var apikey = window.prompt("[WakaTime] Enter your wakatime.com api key:", prefs.get("apikey"));
@@ -105,14 +121,6 @@ define(function (require, exports, module) {
         }
     }
 
-    var COMMAND_ID = "wakatime.apikey";
-    CommandManager.register("WakaTime API Key", COMMAND_ID, promptForApiKey);
+    init();
 
-    var menu = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
-    menu.addMenuDivider();
-    menu.addMenuItem(COMMAND_ID);
-
-    if (!prefs.get("apikey")) {
-        promptForApiKey();
-    }
 });
