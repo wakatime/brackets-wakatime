@@ -84,7 +84,7 @@ define(function (require, exports, module) {
             dataType: 'json',
             data: JSON.stringify({
                 time: time/1000,
-                enity: file,
+                entity: file,
                 type: 'file',
                 project: project,
                 language: language,
