@@ -55,10 +55,10 @@ define(function (require, exports, module) {
     }
 
     function setupEventListeners() {
-        $(MainViewManager).on('currentFileChange', function () {
+        MainViewManager.on('currentFileChange', function () {
             handleAction();
         });
-        $(DocumentManager).on('documentSaved', function () {
+        DocumentManager.on('documentSaved', function () {
             handleAction(true);
         });
         $(window).on('keypress', function () {
