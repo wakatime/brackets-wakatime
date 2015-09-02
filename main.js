@@ -79,12 +79,13 @@ define(function (require, exports, module) {
     function sendHeartbeat(file, time, project, language, isWrite, lines) {
         $.ajax({
             type: 'POST',
-            url: 'https://wakatime.com/api/v1/actions',
+            url: 'https://wakatime.com/api/v1/heartbeats',
             contentType: 'application/json',
             dataType: 'json',
             data: JSON.stringify({
                 time: time/1000,
-                file: file,
+                enity: file,
+                type: 'file',
                 project: project,
                 language: language,
                 is_write: isWrite ? true : false,
