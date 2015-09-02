@@ -4,7 +4,7 @@
     "description": "Automatic time tracking and analytics about your programming.",
     "homepage": "https://github.com/wakatime/brackets-wakatime",
     "version": "1.0.5",
-    "author": "WakaTime <support@wakatime.com> (https://wakatime.com/)",
+    "author": "WakaTime.com",
     "license": "BSD",
     "engines": {
         "brackets": ">=0.24.0"
