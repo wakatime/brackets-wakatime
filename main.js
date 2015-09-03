@@ -69,7 +69,7 @@ define(function (require, exports, module) {
 
     function setupPreferences() {
         prefs.definePreference("apikey", "string", "");
-        prefs.definePreference("ignore", "array", ["^/var/", "^/tmp/", "^/private/"]);
+        prefs.definePreference("ignore", "array", ["^/tmp/", "^/private/"]);
         if (prefs.getPreferenceLocation('ignore').scope == 'default') {
             prefs.set('ignore', prefs.get('ignore'));
             prefs.save();
