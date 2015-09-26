@@ -1,7 +1,7 @@
 brackets-wakatime
 =================
 
-Fully automatic time tracking for [Brackets](http://brackets.io/).
+Quantify your coding inside [Brackets](http://brackets.io/).
 
 Installation
 ------------
