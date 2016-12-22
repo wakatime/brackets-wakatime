@@ -21,6 +21,7 @@ define(function (require, exports, module) {
         PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
         CommandManager     = brackets.getModule("command/CommandManager"),
         Menus              = brackets.getModule("command/Menus"),
+        Dialogs            = brackets.getModule("widgets/Dialogs"),
         prefs              = PreferencesManager.getExtensionPrefs("WakaTime");
 
     var lastAction         = 0,
@@ -141,17 +142,17 @@ define(function (require, exports, module) {
 
         var dialog, wakaKey, $input, $okButton;
 
-        dialog  = Dialogs.showModalDialog('DefaultDialogs', 'Enter Wakatime key',
+        dialog  = Dialogs.showModalDialog('DefaultDialogs', '[WakaTime] Enter your wakatime.com api key:',
           '<input type="text" id="wakatime-key" name="wakatime" value="' + prefs.get("apikey") + '" style="width: 97.5%;"/>',
-          [{ className: Dialogs.DIALOG_BTN_CLASS_PRIMARY, id: Dialogs.DIALOG_BTN_OK, text: 'Ok' },
+          [{ className: Dialogs.DIALOG_BTN_CLASS_PRIMARY + ' wakatime-ok', id: Dialogs.DIALOG_BTN_OK, text: 'Ok' },
           { id: Dialogs.DIALOG_BTN_CANCEL, text: 'Cancel'}]
          );
         $input = $('#wakatime-key');
-
-        $okButton = $('button[data-button-id=ok]');
+        //get OK button on actual modal window
+        $okButton = $('.wakatime-ok');
         //save key when OK pressed
         $okButton.on('click', function(event) {
-            if ($input.val() !== "") {
+            if ($input.val()) {
                 prefs.set("apikey", $input.val());
                 prefs.save();
             }
