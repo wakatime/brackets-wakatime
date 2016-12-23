@@ -13,7 +13,7 @@ Website:     https://wakatime.com/
 define(function (require, exports, module) {
     "use strict";
 
-    var VERSION = '1.0.7';
+    var VERSION = '1.0.8';
 
     var MainViewManager    = brackets.getModule("view/MainViewManager"),
         DocumentManager    = brackets.getModule("document/DocumentManager"),
