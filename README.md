@@ -6,7 +6,7 @@ Quantify your coding inside [Brackets](http://brackets.io/).
 Installation
 ------------
 
-1. Inside Brackets, navigate to `File` -> `Extension Manager...`
+1. Inside Brackets, navigate to `File` → `Extension Manager...`
 
 2. Search for `WakaTime`, then click `Install`.
 
