@@ -29,7 +29,7 @@ History
 1.0.4 (2015-01-04)
 ++++++++++++++++++
 
-- Replace depreciated DocumentManager.currentDocumentChange event with
+- Replace deprecated DocumentManager.currentDocumentChange event with
   MainViewManager.currentFileChange.
 
 
